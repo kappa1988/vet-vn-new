@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Vet & VNCA Community</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+    <style>
+        .login-section {
+            padding: 80px 0;
+            text-align: center;
+        }
+        .login-form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: var(--surface-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+        }
+        #error-message {
+            color: #e74c3c;
+            margin-top: 15px;
+            display: none; /* Hidden by default */
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="assets/logo.svg" alt="Community Logo">
+                    <h1>Vet & VNCA Community</h1>
+                </a>
+            </div>
+            <nav class="main-nav" aria-label="Primary Navigation">
+                <button class="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+                    <span class="hamburger-icon"></span>
+                </button>
+                <ul class="nav-list">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="members.html">Members</a></li>
+                    <li><a href="activities.html">Activities</a></li>
+                    <li><a href="register.html">Register</a></li>
+                    <li><a href="login.html" aria-current="page">Videos</a></li>
+                    <li><a href="future.html">Future</a></li>
+                </ul>
+            </nav>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light and dark mode">
+                 <svg class="sun" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                <svg class="moon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <section class="login-section">
+            <div class="container">
+                <form id="login-form" class="login-form">
+                    <h2>Video Access</h2>
+                    <p>このコンテンツを視聴するにはパスワードを入力してください。</p>
+                    <div class="form-group">
+                        <label for="password">パスワード</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="button button-primary">ログイン</button>
+                    <p id="error-message">パスワードが正しくありません。</p>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2025 Vet & VNCA Community. All rights reserved. | <a href="https://docs.google.com/forms/d/e/1FAIpQLSfWWqJWGEMWqquubh6pBwDXgUY6hTQ4X3TON0o3k2ap6kPYiw/viewform?usp=sf_link" target="_blank">登録解除</a></p>
+        </div>
+    </footer>
+
+    <script src="assets/js/login.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
