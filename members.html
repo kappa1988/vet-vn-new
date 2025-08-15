@@ -11,7 +11,8 @@
     <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
 </head>
 <body>
-    <header class="site-header">
+    <div id="members-content" style="display: none;">
+        <header class="site-header">
         <div class="container">
             <div class="logo">
                 <a href="index.html">
@@ -98,5 +99,13 @@
     </footer>
 
     <script src="assets/js/main.js"></script>
+    </div>
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script type="module" src="https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js"></script>
+    <!-- Add SDKs for Firebase products that you want to use -->
+    <script type="module" src="https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js"></script>
+
+    <script type="module" src="assets/js/auth.js"></script>
 </body>
 </html>

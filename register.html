@@ -1,48 +1,26 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - ぶいえぬパレット</title>
+    <title>Register - ぶいえぬパレット</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
     <style>
-        .login-section {
+        .register-section {
             padding: 80px 0;
             text-align: center;
         }
-        .login-form {
+        .register-container {
             max-width: 400px;
             margin: 0 auto;
             padding: 40px;
             background-color: var(--surface-color);
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
-        }
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius);
-            font-size: 1rem;
-        }
-        #error-message {
-            color: #e74c3c;
-            margin-top: 15px;
-            display: none; /* Hidden by default */
         }
     </style>
 </head>
@@ -63,8 +41,8 @@
                     <li><a href="index.html">Home</a></li>
                     <li><a href="members.html">Members</a></li>
                     <li><a href="activities.html">Activities</a></li>
-                    <li><a href="register.html">Register</a></li>
-                    <li><a href="login.html" aria-current="page">Videos</a></li>
+                    <li><a href="register.html" aria-current="page">Register</a></li>
+                    <li><a href="login.html">Videos</a></li>
                     <li><a href="future.html">Future</a></li>
                 </ul>
             </nav>
@@ -76,15 +54,16 @@
     </header>
 
     <main>
-        <section class="login-section">
+        <section class="register-section">
             <div class="container">
-                <div class="login-container" style="text-align: center;">
-                    <h2>会員専用ページへ</h2>
-                    <p>Googleアカウントでログインしてください。</p>
-                    <button id="google-login-btn" class="button button-primary" style="display: inline-flex; align-items: center; gap: 10px;">
+                <div class="register-container">
+                    <h2>会員登録</h2>
+                    <p>Googleアカウントで登録してください。</p>
+                    <button id="google-register-btn" class="button button-primary" style="display: inline-flex; align-items: center; gap: 10px;">
                         <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google icon" style="width: 18px; height: 18px;">
-                        Googleでログイン
+                        Googleで登録
                     </button>
+                    <p id="register-message" style="margin-top: 20px; color: var(--text-color); display: none;">登録が完了しました。管理者の承認をお待ちください。</p>
                 </div>
             </div>
         </section>
