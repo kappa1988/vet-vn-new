@@ -13,5 +13,8 @@
       { "source": "/login.html", "destination": "/auth/login.html", "type": 301 },
       { "source": "/register.html", "destination": "/auth/register.html", "type": 301 }
     ]
+  },
+  "database": {
+    "rules": "database.rules.json"
   }
 }

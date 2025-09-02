@@ -230,6 +230,21 @@ onAuthStateChanged(auth, async (user) => {
                 }
                 console.log('User is signed in and approved:', user.displayName);
 
+                // ログイン済みのときはヘッダーに「My Page」を追加
+                try {
+                  const navList = document.querySelector('.nav-list');
+                  if (navList && !navList.querySelector('a[href="/members/mypage.html"]')) {
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    a.href = '/members/mypage.html';
+                    a.textContent = 'My Page';
+                    li.appendChild(a);
+                    navList.appendChild(li);
+                  }
+                } catch (e) {
+                  console.warn('nav update skipped', e);
+                }
+
                 // マイページ: フォームの表示とデータ同期
                 if (isPath('/members/mypage.html')) {
                     const form = document.getElementById('profile-form');
