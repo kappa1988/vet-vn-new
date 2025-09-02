@@ -19,6 +19,44 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app); // Get the Auth service instance
 const database = getDatabase(app); // Get the Realtime Database service instance
 
+// --- Helpers ---
+const isPath = (suffix) => window.location.pathname.endsWith(suffix);
+
+async function ensureFreeApproval(uid) {
+  try {
+    const dbRef = ref(database);
+    const approved = await get(child(dbRef, `approvedMembers/${uid}`));
+    if (!approved.exists()) {
+      await set(child(dbRef, `approvedMembers/${uid}`), {
+        plan: 'free',
+        status: 'active',
+        createdAt: Date.now()
+      });
+    }
+  } catch (e) {
+    console.error('ensureFreeApproval error', e);
+  }
+}
+
+async function loadProfile(uid, user) {
+  const snap = await get(child(ref(database), `profiles/${uid}`));
+  const data = snap.exists() ? snap.val() : {};
+  return {
+    displayName: data.displayName || (user?.displayName || ''),
+    role: data.role || 'その他',
+    organization: data.organization || ''
+  };
+}
+
+async function saveProfile(uid, payload) {
+  await set(child(ref(database), `profiles/${uid}`), {
+    displayName: payload.displayName,
+    role: payload.role,
+    organization: payload.organization,
+    updatedAt: Date.now()
+  });
+}
+
 // Google Login (login.html)
 const googleLoginBtn = document.getElementById('google-login-btn');
 if (googleLoginBtn) {
@@ -176,6 +214,8 @@ onAuthStateChanged(auth, async (user) => {
     }
 
     if (user) {
+        // 全員無料枠の自動承認（なければ作成）
+        await ensureFreeApproval(user.uid);
         // User is signed in, now check if they are an approved member
         const dbRef = ref(database);
         try {
@@ -189,10 +229,77 @@ onAuthStateChanged(auth, async (user) => {
                     logoutBtnContainer.style.display = 'block';
                 }
                 console.log('User is signed in and approved:', user.displayName);
+
+                // マイページ: フォームの表示とデータ同期
+                if (isPath('/members/mypage.html')) {
+                    const form = document.getElementById('profile-form');
+                    const notLogged = document.getElementById('not-logged');
+                    const notApproved = document.getElementById('not-approved');
+                    const nameInput = document.getElementById('fullName');
+                    const orgInput = document.getElementById('organization');
+                    const emailSpan = document.getElementById('accountEmail');
+                    const saveBtn = document.getElementById('saveProfile');
+                    const saveStatus = document.getElementById('saveStatus');
+
+                    if (notLogged) notLogged.style.display = 'none';
+                    if (notApproved) notApproved.style.display = 'none';
+                    if (emailSpan) emailSpan.textContent = user.email || '';
+
+                    // ロード
+                    try {
+                        const prof = await loadProfile(user.uid, user);
+                        if (nameInput) nameInput.value = prof.displayName || '';
+                        if (orgInput) orgInput.value = prof.organization || '';
+                        const roleInputs = document.querySelectorAll('input[name="role"]');
+                        roleInputs.forEach(r => {
+                            if (r.value === (prof.role || 'その他')) r.checked = true;
+                        });
+                    } catch (e) {
+                        console.error('loadProfile error', e);
+                    }
+
+                    if (form) form.style.display = 'block';
+
+                    // 保存
+                    if (form) {
+                        form.addEventListener('submit', async (ev) => {
+                            ev.preventDefault();
+                            const roleSel = /** @type {HTMLInputElement|null} */(document.querySelector('input[name="role"]:checked'));
+                            const payload = {
+                                displayName: (nameInput?.value || '').trim(),
+                                role: roleSel ? roleSel.value : 'その他',
+                                organization: (orgInput?.value || '').trim()
+                            };
+                            if (!payload.displayName) {
+                                saveStatus.textContent = '本名を入力してください';
+                                return;
+                            }
+                            try {
+                                saveBtn.disabled = true;
+                                saveStatus.textContent = '保存中…';
+                                await saveProfile(user.uid, payload);
+                                saveStatus.textContent = '保存しました';
+                            } catch (e) {
+                                console.error('saveProfile error', e);
+                                saveStatus.textContent = '保存に失敗しました';
+                            } finally {
+                                saveBtn.disabled = false;
+                            }
+                        });
+                    }
+                }
             } else {
                 // User is signed in but NOT an approved member
                 console.log('User is signed in but not an approved member:', user.displayName);
-                // alert('あなたは承認された会員ではありません。'); // このアラートはregister.htmlでは出ないようにする
+                // 自動承認を試みた直後でも反映に遅延が出る場合があるため、マイページでは案内表示
+                if (isPath('/members/mypage.html')) {
+                    const notApproved = document.getElementById('not-approved');
+                    const notLogged = document.getElementById('not-logged');
+                    if (notLogged) notLogged.style.display = 'none';
+                    if (notApproved) notApproved.style.display = 'block';
+                    // 少し待ってから再読込
+                    setTimeout(() => window.location.reload(), 1500);
+                }
                 if (membersContent) { // membersContentがあるページでのみ表示
                     membersContent.style.display = 'none';
                 }
