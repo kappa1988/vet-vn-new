@@ -5,6 +5,13 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
+    ],
+    "redirects": [
+      { "source": "/members.html", "destination": "/members/", "type": 301 },
+      { "source": "/activities.html", "destination": "/members/activities.html", "type": 301 },
+      { "source": "/videos-protected.html", "destination": "/members/videos-protected.html", "type": 301 },
+      { "source": "/login.html", "destination": "/auth/login.html", "type": 301 },
+      { "source": "/register.html", "destination": "/auth/register.html", "type": 301 }
     ]
   }
 }
