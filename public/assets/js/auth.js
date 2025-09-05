@@ -233,10 +233,10 @@ onAuthStateChanged(auth, async (user) => {
                 // ログイン済みのときはヘッダーに「My Page」を追加
                 try {
                   const navList = document.querySelector('.nav-list');
-                  if (navList && !navList.querySelector('a[href="/members/mypage.html"]')) {
+                  if (navList && !navList.querySelector('a[href="https://vet-vn.web.app/members/mypage.html"]')) {
                     const li = document.createElement('li');
                     const a = document.createElement('a');
-                    a.href = '/members/mypage.html';
+                    a.href = 'https://vet-vn.web.app/members/mypage.html';
                     a.textContent = 'My Page';
                     li.appendChild(a);
                     navList.appendChild(li);
